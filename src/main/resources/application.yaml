@@ -12,14 +12,22 @@ spring:
     ansi:
       enabled: always
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
+    type: com.alibaba.druid.pool.DruidDataSource
 
     # H2 database configuration.
     driver-class-name: org.h2.Driver
     url: jdbc:h2:file:~/.halo/db/halo
     username: admin
     password: 123456
-
+    druid:
+      validation-query: select 1
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+        slf4j:
+          enabled: true
+          statement-executable-sql-log-enable: true
   h2:
     console:
       settings:
@@ -31,6 +39,7 @@ spring:
       ddl-auto: update
     show-sql: false
     open-in-view: false
+    database-platform: org.hibernate.dialect.H2Dialect
   flyway:
     enabled: false
   servlet:
@@ -47,6 +56,7 @@ management:
 logging:
   level:
     run.halo.app: INFO
+    druid.sql.Statement: debug
   file:
     path: \${user.home}/.halo/logs
 
